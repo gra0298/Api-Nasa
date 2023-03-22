@@ -4,11 +4,20 @@ window.addEventListener('load',getDataNasa);
 function getDataNasa(){
 
     const NasaKey = '14DkdAOsAIst4bFrG9LhliQmdZllhLrwPKt5LcdP';
-    const route = `https://api.nasa.gov/planetary/apod?api_key=${NasaKey}`;
+    const dateInput = document.querySelector('#date');
+    const date = dateInput.value;
+
+    const today = new Date().toISOString().split('T')[0];
+    dateInput.setAttribute('max', today);
+
+   
+    const route = `https://api.nasa.gov/planetary/apod?api_key=${NasaKey}&date=${date}`;
+  
 
     fetch(route)
     .then(response => response.json())
     .then(results => showData(results))
+    
 
 }
 
@@ -16,8 +25,7 @@ function showData({date,explanation,media_type,title,url}){
     const titulo = document.querySelector('#title');
     titulo.innerHTML = title;
 
-    const fecha = document.querySelector('#date');
-    fecha.innerHTML = date;
+   
 
     const describe = document.querySelector('#describe');
     describe.innerHTML = explanation;
@@ -35,3 +43,10 @@ function showData({date,explanation,media_type,title,url}){
     
 
 }   
+
+const updateBtn = document.querySelector('#newData');
+updateBtn.addEventListener('click', getDataNasa);
+
+
+  
+  
